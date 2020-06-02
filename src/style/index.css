@@ -1,0 +1,9 @@
+
+/* Normalize.css + Tailwind base styles */
+@tailwind preflight;
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
