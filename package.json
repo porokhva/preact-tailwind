@@ -17,6 +17,8 @@
     ]
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.2.0",
+    "cssnano": "^4.1.10",
     "enzyme": "^3.10.0",
     "enzyme-adapter-preact-pure": "^2.0.0",
     "eslint": "^6.0.1",
@@ -24,11 +26,14 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "jest-preset-preact": "^1.0.0",
+    "postcss-custom-properties": "^9.1.1",
+    "postcss-import": "^12.0.1",
+    "postcss-nested": "^4.2.1",
     "preact-cli": "^3.0.0-rc.6",
     "preact-render-spy": "^1.2.1",
-    "preact-cli-postcss": "^1.1.1",
     "purgecss-webpack-plugin": "^0.20.1",
-    "sirv-cli": "^0.4.5"
+    "sirv-cli": "^0.4.5",
+    "style-loader": "^1.2.1"
   },
   "dependencies": {
     "mobx": "^5.15.4",
@@ -36,6 +41,10 @@
     "preact": "^10.3.2",
     "preact-render-to-string": "^5.1.4",
     "preact-router": "^3.2.1",
+    "react-input-mask": "^2.0.4",
+    "react-sidemenu": "^1.1.0",
+    "reactrangeslider": "^3.0.6",
+    "redaxios": "^0.2.0",
     "tailwindcss": "^0.4.3"
   },
   "alias": {
@@ -48,6 +57,25 @@
     "setupFiles": [
       "<rootDir>/tests/__mocks__/browserMocks.js",
       "<rootDir>/tests/__mocks__/setupTests.js"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "ie 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }

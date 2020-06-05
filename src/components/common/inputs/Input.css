@@ -1,0 +1,18 @@
+input {
+  border: none;
+  outline: none;
+  max-width: 335px;
+  caret-color: #fb3c4a;
+  @apply w-full border-fields border-0 border-b border-solid h-12;
+}
+input:focus {
+  @apply border-hover_menu;
+}
+input::placeholder {
+  @apply text-fields;
+}
+.input-field {
+  & input {
+    border: 1px solid;
+  }
+}

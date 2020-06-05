@@ -1,32 +1,33 @@
-const preactCliPostCSS = require("preact-cli-postcss");
-const PurgecssPlugin = require("purgecss-webpack-plugin");
-const glob = require("glob");
-const path = require("path");
+const notFoundError = (name) => `Please pass the ${name} parameter to plugin`
 
-// Custom PurgeCSS extractor for special characters in Tailwind's classnames
-class TailwindExtractor {
-  static extract(content) {
-    return content.match(/[A-z0-9-:\/]+/g) || [];
-  }
+const defaultParams = {
+  regex: /[\w-/:]+(?<!:)/g,
 }
 
-// PurgeCSS webpack plugin
-const purgeCssPlugin = new PurgecssPlugin({
-  paths: glob.sync("./components/**/*.js"),
-  extractors: [
-    {
-      extractor: TailwindExtractor,
-      extensions: ["js", "jsx"]
+module.exports = (config, env, helpers, params = defaultParams) => {
+  if (!config) throw new Error(notFoundError('config'))
+  if (!env) throw new Error(notFoundError('env'))
+  if (!helpers) throw new Error(notFoundError('helpers'))
+
+  const purgecss = require('@fullhuman/postcss-purgecss')({
+    // Specify the paths to all of the template files in your project
+    content: ['./src/**/*.tsx', './src/**/*.js', './src/**/*.jsx'],
+
+    // Include any special characters you're using in this regular expression
+    defaultExtractor: (content) => content.match(params.regex) || [],
+  })
+
+  const postCssLoaders = helpers.getLoadersByName(config, 'postcss-loader')
+  postCssLoaders.forEach(({ loader }) => {
+    const plugins = loader.options.plugins
+
+    // Add tailwind css at the top.
+    plugins.unshift(require('tailwindcss'))
+
+    // Add PurgeCSS only in production.
+    if (env.production) {
+      plugins.push(purgecss)
     }
-  ]
-});
-
-export default function(config, env, helpers) {
-  // Use postcss.config.js instead of default postCSS config
-  preactCliPostCSS(config, helpers);
-
-  // Run styles through purgeCSS for production only
-  if (env.production) {
-    config.plugins.push(purgeCssPlugin);
-  }
+  })
+  return config
 }
